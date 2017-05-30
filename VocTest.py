@@ -20,6 +20,7 @@ def show_dicts(dictionary):
         print(dictionary[voc])
 
 def get_questions(times, vocs, dicts):
+    print("\033[2J\033[H",end='')
     for i in range(times):
         random.shuffle(vocs)
         temp_vocs = vocs[0:4]
@@ -28,14 +29,25 @@ def get_questions(times, vocs, dicts):
         random.shuffle(temp_vocs)
         for j in range(4):
             print(str(j+1)+'.'+dicts[temp_vocs[j]], end='  ')
-        ans = int(input('\nAns: '))-1
+        while(True):
+            try:
+                ans = int(input('\nAns: '))-1
+                if(ans > 3 or ans < 0):
+                    print("Please input a number less than 5!!!")
+                    continue
+                else:                
+                    break
+            except ValueError:
+                print("Please input a number!!!")
+
         if(temp_vocs[ans] == right_ans):
             input("Correct!!\nPress Enter to continue...")
-            print("\033[2J\033[H")
+            print("\033[2J\033[H",end='')
         else:
             print("Wrong!!!")
             input("The answer is: " +dicts[right_ans]+"\nPress Enter to continue...")
-            print("\033[2J\033[H")
+            print("\033[2J\033[H",end='')
+    
         
 
 
@@ -48,11 +60,15 @@ def main():
         (vocs, dictionary) = get_vocs(sys.argv[1],dictionary)
         op = input("Do you want to review? (Y/n) ")
         if(op != 'n' and op != 'N'):
+            print("\033[2J\033[H",end='')
             show_dicts(dictionary)
             input("Press Enter to continue...")
-        print("\033[2J\033[H") #clear screen
-        num = input("How many questions do you want? ")
-        get_questions(int(num), vocs, dictionary)
+        print("\033[2J\033[H",end='') #clear screen
+        num = input("How many questions do you want? (default = 5)")
+        try:
+            get_questions(int(num), vocs, dictionary)
+        except ValueError:
+            get_questions(5, vocs, dictionary)
 
 
 if __name__ == '__main__':
