@@ -1,8 +1,6 @@
 import random
 import sys
 
-
-
 def get_vocs(file_name,dictionary):
     file = open(file_name)
     vocs = []
