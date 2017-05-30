@@ -56,7 +56,7 @@ void guess_what(vector<voca> vocaa){
         cout << "Wrong" << endl << "The answer is " << vocaa[num].get_defi() << endl;;
     }
 
-    
+
 }
 
 int question_num(){
@@ -90,16 +90,19 @@ int main(int argc, char *argv[]){
         cout << "Example usage: \n" << endl << "./tfo ./TPO1.md \n" << endl;
         return 0;
     }
-    
+
     // fstream infile("TPO1.md");
     fstream infile(argv[1]);
     string temp;
-    
+
     map<string,string> voc;
     vector<voca> vocs;
 
     // read file into map and vector
     while(getline(infile,temp)){
+        // if(temp[0] == '#')
+        //     continue;
+
         if( temp.find('-') <= temp.size() ){
             stringstream ss;
             ss << temp;
@@ -118,9 +121,9 @@ int main(int argc, char *argv[]){
             voc[word] = meaning;
             voca tempVoca(word,meaning);
             vocs.push_back(tempVoca);
-        }   
+        }
     }
-
+    cout << vocs.size() << endl;
     // for(const auto &i:voc){
     //     cout << i.first << " " << i.second << endl;
     // }
@@ -131,7 +134,9 @@ int main(int argc, char *argv[]){
     // cout << endl << endl;
     review_or_not(voc);
     int qs = question_num();
+
     
+
     for(int i = 0; i < qs; i++){
         cout << "\033[2J\033[H";
         guess_what(vocs);
